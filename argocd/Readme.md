@@ -1,1 +1,1 @@
-helm install argocd -n argocd . -f values.yaml --create-namespace
+helm install argocd -n argocd . -f updated-values.yaml --create-namespace
