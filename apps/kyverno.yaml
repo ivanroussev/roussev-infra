@@ -3,24 +3,19 @@ kind: Application
 metadata:
   name: kyverno
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    namespace: kyverno
+    server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: https://kyverno.github.io/kyverno
     chart: kyverno
-    targetRevision: "3.6.2"
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: kyverno
+    repoURL: https://kyverno.github.io/kyverno
+    targetRevision: 3.6.2
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true
-      - SkipDryRunOnMissingResource=true
+      - Replace=true
