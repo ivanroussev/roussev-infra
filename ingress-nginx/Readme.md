@@ -1,0 +1,1 @@
+helm install ingress-nginx -n ingress-nginx . -f values.yaml --create-namespace
