@@ -1,0 +1,25 @@
+cert-manager:
+  installCRDs: true
+  
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  global:
+    logLevel: 2
+  
+  webhook:
+    timeoutSeconds: 10
+  
+  config:
+    featureGates:
+      ACMEHTTP01IngressPathTypeExact: false 
+
+
+clusterIssuer:
+  email: me@roussev.com
+  ingressClass: nginx
