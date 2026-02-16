@@ -3,17 +3,16 @@ kind: Application
 metadata:
   name: kyverno
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://github.com/ivanroussev/roussev-infra.git
-    targetRevision: main
-    path: kyverno
-    helm:
-      valueFiles:
-        - values.yaml
+    repoURL: https://kyverno.github.io/kyverno
+    chart: kyverno
+    targetRevision: "3.7.0"
   destination:
     server: https://kubernetes.default.svc
     namespace: kyverno
@@ -24,3 +23,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
