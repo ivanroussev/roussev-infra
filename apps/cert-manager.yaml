@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com-personal:ivanroussev/roussev-infra.git
+    repoURL: https://github.com/ivanroussev/roussev-infra.git
     targetRevision: main
     path: cert-manager
     helm:
