@@ -36,7 +36,7 @@ spec:
         deny:
           conditions:
             any:
-              - key: "{{ `{{request.object.metadata.annotations."nginx.ingress.kubernetes.io/auth-tls-verify-client"}}` }}"
+              - key: '{{ `{{request.object.metadata.annotations."nginx.ingress.kubernetes.io/auth-tls-verify-client"}}` }}'
                 operator: AnyNotIn
                 value:
                   - "on"
