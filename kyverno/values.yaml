@@ -1,1 +1,4 @@
-kyverno: {}
+kyverno:
+  crd:
+    migration:
+      enabled: false
