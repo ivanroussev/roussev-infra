@@ -68,23 +68,27 @@ kyverno-policies:
 
   # -- Exclude resources from individual policies.
   # Policies with multiple rules can have individual rules excluded by using the name of the rule as the key in the `policyExclude` map.
-  policyExclude: {}
-    # # Exclude resources from individual policies
-    # disallow-host-path:
-    #   any:
-    #   - resources:
-    #       kinds:
-    #       - Pod
-    #       namespaces:
-    #       - fluent
-    # # Policies with multiple rules can have individual rules excluded
-    # adding-capabilities-strict:
-    #   any:
-    #   - resources:
-    #       kinds:
-    #       - Pod
-    #       namespaces:
-    #       - kube-system
+  policyExclude:
+    disallow-privileged-containers:
+      any:
+      - resources:
+          namespaces:
+          - kube-system
+    disallow-host-namespaces:
+      any:
+      - resources:
+          namespaces:
+          - kube-system
+    disallow-host-path:
+      any:
+      - resources:
+          namespaces:
+          - kube-system
+    disallow-host-ports:
+      any:
+      - resources:
+          namespaces:
+          - kube-system
   # -- Add preconditions to individual policies.
   # Policies with multiple rules can have individual rules excluded by using the name of the rule as the key in the `policyPreconditions` map.
   policyPreconditions: {}
