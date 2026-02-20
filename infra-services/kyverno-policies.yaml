@@ -14,9 +14,6 @@ spec:
     repoURL: https://github.com/ivanroussev/roussev-infra.git
     targetRevision: main
     path: kyverno-policies
-    helm:
-      valueFiles:
-        - values.yaml
   syncPolicy:
     automated:
       prune: true
