@@ -36,7 +36,7 @@ spec:
         deny:
           conditions:
             any:
-              - key: "{{request.object.metadata.annotations.\"nginx.ingress.kubernetes.io/auth-tls-verify-client\"}}"
+              - key: "{{ `{{request.object.metadata.annotations."nginx.ingress.kubernetes.io/auth-tls-verify-client"}}` }}"
                 operator: AnyNotIn
                 value:
                   - "on"
@@ -64,7 +64,7 @@ spec:
         message: The ingress-nginx controller image version must be v1.11.2 or greater.
         deny:
           conditions:
-            - key: "{{ request.object.spec.containers[?(@.name=='controller')].image }}"
+            - key: "{{ `{{ request.object.spec.containers[?(@.name=='controller')].image }}` }}"
               operator: AnyIn
               value:
                 - registry.k8s.io/ingress-nginx/controller:v1.11.0
