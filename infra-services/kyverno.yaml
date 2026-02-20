@@ -3,15 +3,20 @@ kind: Application
 metadata:
   name: kyverno
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   destination:
     namespace: kyverno
     server: https://kubernetes.default.svc
   project: default
   source:
-    chart: kyverno
-    repoURL: https://kyverno.github.io/kyverno
-    targetRevision: 3.6.2
+    repoURL: https://github.com/ivanroussev/roussev-infra.git
+    targetRevision: main
+    path: kyverno
+    helm:
+      valueFiles:
+        - values.yaml
   syncPolicy:
     automated:
       prune: true
