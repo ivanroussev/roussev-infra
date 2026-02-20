@@ -1,0 +1,47 @@
+kyverno-policies:
+  # -- Use baseline Pod Security Standard as foundation
+  # https://kyverno.io/policies/pod-security
+  podSecurityStandard: baseline
+
+  # -- Start in Audit mode — observe violations before enforcing
+  # Switch to Enforce once you've reviewed audit results
+  validationFailureAction: Audit
+
+  # -- Webhook failure policy — Fail ensures security posture,
+  # but set to Ignore in early rollout to avoid blocking workloads
+  failurePolicy: Fail
+
+  # -- Allow existing violating resources to pass validation
+  # Avoids breaking existing workloads on policy rollout
+  validationAllowExistingViolations: true
+
+  # -- Enable background scanning to audit existing resources
+  background: true
+
+  # -- Exclude kube-system from policies that system components legitimately violate
+  policyExclude:
+    disallow-privileged-containers:
+      any:
+        - resources:
+            namespaces:
+              - kube-system
+    disallow-host-namespaces:
+      any:
+        - resources:
+            namespaces:
+              - kube-system
+    disallow-host-path:
+      any:
+        - resources:
+            namespaces:
+              - kube-system
+    disallow-host-ports:
+      any:
+        - resources:
+            namespaces:
+              - kube-system
+    disallow-host-process:
+      any:
+        - resources:
+            namespaces:
+              - kube-system

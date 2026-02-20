@@ -1,40 +1,80 @@
 kyverno:
-  reportsController:
+  # -- Admission controller handles policy validation/mutation on API requests
+  admissionController:
+    replicas: 3
     resources:
       limits:
-        memory: "256Mi"
-        cpu: 600m
+        memory: 256Mi
       requests:
         cpu: 200m
-        memory: "256Mi"
+        memory: 256Mi
+
+  # -- Background controller scans existing resources for policy violations
   backgroundController:
     resources:
       requests:
-        cpu: "50m"
-        memory: "124Mi"
+        cpu: 50m
+        memory: 128Mi
       limits:
-        cpu: "100m"
-        memory: "124Mi"
-  admissionController:
+        memory: 128Mi
+
+  # -- Reports controller manages policy report lifecycle
+  reportsController:
     resources:
       limits:
-        memory: "256Mi"
-        cpu: 600m
+        memory: 256Mi
       requests:
         cpu: 200m
-        memory: "256Mi"
-  priorityClassName: "system-cluster-critical"
-  replicaCount: 3
+        memory: 256Mi
+
+  # -- Cleanup controller is REQUIRED for ClusterCleanupPolicy resources
   cleanupController:
-    enabled: false
-  namespaceOverride: kyverno
+    enabled: true
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 128Mi
+
+  # -- Ensure Kyverno pods are scheduled with high priority
+  priorityClassName: system-cluster-critical
+
   crds:
     install: true
+
   features:
     logging:
       format: json
-      verbosity: -1
-  metricsService:
-    create: false
+      verbosity: 2
+
   config:
+    # -- Exclude the kyverno namespace from policy enforcement
     excludeKyvernoNamespace: true
+    # -- Exclude system namespaces that should not be subject to policies
+    resourceFilters:
+      - "[Event,*,*]"
+      - "[*,kube-system,*]"
+      - "[*,kube-public,*]"
+      - "[*,kube-node-lease,*]"
+      - "[Node,*,*]"
+      - "[Node/*,*,*]"
+      - "[APIService,*,*]"
+      - "[APIService/*,*,*]"
+      - "[TokenReview,*,*]"
+      - "[SubjectAccessReview,*,*]"
+      - "[SelfSubjectAccessReview,*,*]"
+      - "[Binding,*,*]"
+      - "[ReplicaSet,*,*]"
+      - "[ReplicaSet/*,*,*]"
+      # Exclude kyverno resources from being validated
+      - "[ClusterPolicy,*,*]"
+      - "[ClusterCleanupPolicy,*,*]"
+      - "[PolicyException,*,*]"
+
+  # -- Webhook failure policy: Fail ensures policies are always evaluated.
+  # Set to Ignore during initial rollout if you're concerned about availability.
+  webhookConfiguration:
+    failurePolicy:
+      mutate: Ignore
+      validate: Fail
