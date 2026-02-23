@@ -1,3 +1,11 @@
 kyverno-policies:
   podSecurityStandard: baseline
   validationFailureAction: Audit
+  mutateJobTTL:
+    enabled: true
+    ttlSecondsAfterFinished: 900
+  mutatePodTTL:
+    enabled: true
+    ttlSecondsAfterFinished: 900
+  mutateCronJobTTL:
+    enabled: true
