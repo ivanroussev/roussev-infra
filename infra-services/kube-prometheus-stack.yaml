@@ -15,7 +15,7 @@ spec:
     path: kube-prometheus-stack
     helm:
       valueFiles:
-        - custom-values.yaml
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
