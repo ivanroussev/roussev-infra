@@ -6,7 +6,7 @@ policyKind: ClusterPolicy
 # Set to `ValidatingPolicy` to use CEL-based policies (requires Kyverno 1.17+)
 # ClusterPolicy will be deprecated in Kyverno 1.17
 # Default: ClusterPolicy (for backward compatibility)
-policyType: ClusterPolicy
+policyType: ValidatingPolicy
 
 # -- Pod Security Standard profile (`baseline`, `restricted`, `privileged`, `custom`).
 # For more info https://kyverno.io/policies/pod-security.
